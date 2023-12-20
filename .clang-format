@@ -1,0 +1,350 @@
+---
+Language:        Cpp
+# BasedOnStyle:  LLVM
+
+# Offset for access modifiers (public, private, protected)
+AccessModifierOffset: -2
+# Set the offset for access modifiers to -2 spaces
+
+#----- Alignment settings -----
+
+AlignAfterOpenBracket: Align
+# Align elements after an open bracket
+
+AlignConsecutiveMacros: false
+# Do not align consecutive macros
+
+AlignConsecutiveAssignments: false
+# Do not align consecutive assignments
+
+AlignConsecutiveDeclarations: false
+# Do not align consecutive declarations
+
+AlignEscapedNewlines: Right
+# Align escaped newlines to the right
+
+AlignOperands:   true
+# Align operands in expressions
+
+AlignTrailingComments: true
+# Align trailing comments
+
+AllowAllArgumentsOnNextLine: true
+# Allow all arguments on the next line
+
+AllowAllConstructorInitializersOnNextLine: true
+# Allow all constructor initializers on the next line
+
+AllowAllParametersOfDeclarationOnNextLine: true
+# Allow all parameters of a declaration on the next line
+
+AllowShortBlocksOnASingleLine: false
+# Disallow short blocks on a single line
+
+AllowShortCaseLabelsOnASingleLine: false
+# Disallow short case labels on a single line
+
+AllowShortFunctionsOnASingleLine: Inline
+# Allow short functions on a single line (inline)
+
+AllowShortLambdasOnASingleLine: All
+# Allow short lambdas on a single line (all)
+
+AllowShortIfStatementsOnASingleLine: Never
+# Disallow short 'if' statements on a single line
+
+AllowShortLoopsOnASingleLine: false
+# Disallow short loops on a single line
+
+AlwaysBreakAfterDefinitionReturnType: None
+# Do not always break after definition return type
+
+AlwaysBreakAfterReturnType: None
+# Do not always break after return type
+
+AlwaysBreakBeforeMultilineStrings: false
+# Do not always break before multiline strings
+
+AlwaysBreakTemplateDeclarations: MultiLine
+# Always break template declarations into multiple lines
+
+BinPackArguments: true
+# Bin pack arguments
+
+BinPackParameters: true
+# Brace wrapping settings
+
+BreakBeforeBraces: Custom
+# Customize break before braces
+
+BraceWrapping:
+  AfterCaseLabel:  true
+  # Add a newline after a case label
+
+  AfterClass:      true
+  # Add a newline after a class declaration
+
+  AfterControlStatement: false
+  # Do not add a newline after a control statement
+
+  AfterEnum:       true
+  # Add a newline after an enum declaration
+
+  AfterFunction:   true
+  # Add a newline after a function declaration
+
+  AfterNamespace:  false
+  # Do not add a newline after a namespace declaration
+
+  AfterObjCDeclaration: true
+  # Add a newline after an Objective-C declaration
+
+  AfterStruct:     true
+  # Add a newline after a struct declaration
+
+  AfterUnion:      true
+  # Add a newline after a union declaration
+
+  AfterExternBlock: false
+  # Do not add a newline after an extern block
+
+  BeforeCatch:     false
+  # Do not add a newline before a catch statement
+
+  BeforeElse:      true
+  # Add a newline before an else statement
+
+  IndentBraces:    false
+  # Do not indent braces
+
+  SplitEmptyFunction: true
+  # Split empty functions into multiple lines
+
+  SplitEmptyRecord: true
+  # Split empty records into multiple lines
+
+  SplitEmptyNamespace: true
+  # Split empty namespaces into multiple lines
+
+
+#----- Break settings -----
+
+BreakBeforeBinaryOperators: None
+# Do not break before binary operators
+
+BreakBeforeInheritanceComma: false
+# Do not break before inheritance comma
+
+BreakInheritanceList: BeforeColon
+# Break before the colon in inheritance lists
+
+BreakBeforeTernaryOperators: true
+# Break before ternary operators
+
+BreakConstructorInitializersBeforeComma: false
+# Do not break constructor initializers before a comma
+
+BreakConstructorInitializers: BeforeColon
+# Break constructor initializers before a colon
+
+BreakAfterJavaFieldAnnotations: false
+# Do not break after Java field annotations
+
+BreakStringLiterals: true
+# Break string literals
+
+
+#----- Column and line limit settings -----
+
+ColumnLimit: 0
+# Set the maximum column length for a line (0 for unlimited)
+
+CommentPragmas:  '^ IWYU pragma:'
+# Set comment pragmas
+
+CompactNamespaces: false
+# Do not compact namespaces
+
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+# Set constructor initializers to one per line
+
+ConstructorInitializerIndentWidth: 4
+# Set constructor initializer indentation width to 4 spaces
+
+ContinuationIndentWidth: 4
+# Set continuation indentation width to 4 spaces
+
+
+#----- C++11 settings -----
+
+Cpp11BracedListStyle: false
+# Do not use C++11 braced list style
+
+
+#----- Pointer alignment settings -----
+
+DerivePointerAlignment: false
+# Do not derive pointer alignment
+
+DisableFormat:   false
+# Do not disable formatting
+
+ExperimentalAutoDetectBinPacking: false
+# Do not use experimental auto-detect bin packing
+
+
+#----- Namespace settings -----
+
+FixNamespaceComments: true
+# Fix namespace comments
+
+ForEachMacros:
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
+
+
+#-----  Include settings -----
+
+IncludeBlocks:   Preserve
+# Preserve include blocks
+
+IncludeCategories:
+  - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
+    Priority:        2
+  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
+    Priority:        3
+  - Regex:           '.*'
+    Priority:        1
+
+IncludeIsMainRegex: '(Test)?$'
+# Set include as main regex
+
+#----- Indentation settings -----
+
+IndentCaseLabels: false
+# Do not indent case labels
+
+IndentPPDirectives: None
+# Do not indent preprocessor directives
+
+IndentWidth:     2
+IndentWrappedFunctionNames: false
+# Do not indent wrapped function names
+
+
+#----- Empty line settings -----
+
+KeepEmptyLinesAtTheStartOfBlocks: true
+# Keep empty lines at the start of blocks
+
+MacroBlockBegin: ''
+# Set macro block begin to empty
+
+MacroBlockEnd:   ''
+# Set macro block end to empty
+
+MaxEmptyLinesToKeep: 1
+# Set maximum empty lines to keep
+
+
+#----- Namespace indentation settings -----
+
+NamespaceIndentation: None
+# Set namespace indentation to none
+
+
+#-----  Penalty settings -----
+
+PenaltyBreakAssignment: 2
+# Set penalty for breaking assignments
+
+PenaltyBreakBeforeFirstCallParameter: 19
+# Set penalty for breaking before the
+
+PenaltyBreakComment: 300
+# Penalty for breaking a comment
+
+PenaltyBreakFirstLessLess: 120
+# Penalty for breaking after the first '<<'
+
+PenaltyBreakString: 1000
+# Penalty for breaking strings
+
+PenaltyBreakTemplateDeclaration: 10
+# Penalty for breaking template declarations
+
+PenaltyExcessCharacter: 1000000
+# Penalty for an excess character
+
+PenaltyReturnTypeOnItsOwnLine: 60
+# Penalty for a return type on its own line
+
+PointerAlignment: Left
+# Set pointer alignment to the left
+
+ReflowComments:  true
+# Enable reflowing comments
+
+SortIncludes:    true
+# Sort #include statements
+
+SortUsingDeclarations: true
+# Sort using declarations
+
+SpaceAfterCStyleCast: false
+# Disable space after C-style cast
+
+SpaceAfterLogicalNot: false
+# Disable space after logical NOT (!)
+
+SpaceAfterTemplateKeyword: true
+# Enable space after template keyword
+
+SpaceBeforeAssignmentOperators: true
+
+SpaceBeforeCpp11BracedList: false
+# Disable space before C++11 braced list style
+
+SpaceBeforeCtorInitializerColon: true
+# Enable space before constructor initializer colon
+
+SpaceBeforeInheritanceColon: true
+# Enable space before inheritance colon
+
+SpaceBeforeParens: ControlStatements
+# Add spaces before parentheses in control statements
+
+SpaceBeforeRangeBasedForLoopColon: true
+# Enable space before range-based for loop colon
+
+SpaceInEmptyParentheses: false
+# Do not add spaces inside empty parentheses
+
+SpacesBeforeTrailingComments: 1
+# Set the number of spaces before trailing comments to 1
+
+SpacesInAngles:  false
+# Disable spaces in angles
+
+SpacesInContainerLiterals: true
+
+SpacesInCStyleCastParentheses: false
+# Disable spaces in C-style cast parentheses
+
+SpacesInParentheses: false
+# Disable spaces in parentheses
+
+SpacesInSquareBrackets: false
+# Disable spaces in square brackets
+
+Standard:        c++17
+StatementMacros:
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
+TabWidth:        2
+# Set tab width to 2 spaces
+
+UseTab:          Never
+
+
