@@ -5,14 +5,14 @@
 #ifndef __PROPERTIES__H__
 #define __PROPERTIES__H__
 
-#include <assert.h>
 #include "basicTypes/MEtl/string.h"
+#include <assert.h>
 
-#include <map>
-#include <vector>
-#include <list>
-#include <set>
 #include <iostream>
+#include <list>
+#include <map>
+#include <set>
+#include <vector>
 
 #include "ProperTypes.h"
 
@@ -22,18 +22,27 @@ class Properties;
 class MetaProperties;
 class PropertyVerification;
 
-enum VerificationStatus_e
-{
+enum VerificationStatus_e {
   E_VERIFICATION_SUCCEEDED = 0,
   E_VERIFICATION_FAILED = 1,
   E_VERIFICATION_INACTIVE = 2,
   E_VERIFICATION_MANUALLY_DEACTIVATED = 3
 };
 
-enum BadCmdLineSyntaxPolicy { IGNORE_ON_BAD_SYNTAX, WARN_ON_BAD_SYNTAX, ABORT_ON_BAD_SYNTAX };
-enum InputStringValidityCheckPolicy { DONT_CHECK_INPUT_STRING_VALIDITY = 0, CHECK_INPUT_STRING_VALIDITY = 1 };
+enum BadCmd {
+  lala,
+  Baba
+};
+enum InputStringValidityCheckPolicy {
+  DONT_CHECK_INPUT_STRING_VALIDITY = 0,
+  CHECK_INPUT_STRING_VALIDITY = 1
+};
 
-enum ValidatorType { DEFAULT_VALIDATOR, DISCRETE_ITEMS_VALIDATOR, IP_ADDRESS_VALIDATOR };
+enum ValidatorType {
+  DEFAULT_VALIDATOR,
+  DISCRETE_ITEMS_VALIDATOR,
+  IP_ADDRESS_VALIDATOR
+};
 
 /**
  * @class Property
@@ -44,39 +53,38 @@ enum ValidatorType { DEFAULT_VALIDATOR, DISCRETE_ITEMS_VALIDATOR, IP_ADDRESS_VAL
  */
 class Property {
 public:
-
   class Validator {
   public:
     Validator(Properties* prop);
-    virtual bool validate(const MEtl::string &key, const MEtl::string &val, const Properties &container,
-                          MEtl::string &why) const = 0;
+    virtual bool validate(const MEtl::string& key, const MEtl::string& val, const Properties& container,
+                          MEtl::string& why) const = 0;
     virtual ~Validator() {}
     Properties* _prop;
     virtual int validatorType() const { return DEFAULT_VALIDATOR; }
   };
 
   /// @brief Enumerates the possible loaded sources of a property.
-  enum Loaded { NOT_LOADED = 0, /** < default*/
-                FROM_INF = 1 << 0, /** < from ifstream (file, string etc.)*/
-                FROM_ARGS = 1 << 1, /** < from cmdLine*/
-                FROM_ENV = 1 << 2, /** < getenv*/
-                FROM_VEC = 1 << 3,
-                FROM_USER = 1 << 4, /** < from user - operator() or calling a set function*/
-                FROM_PROJECT = 1 << 5, /** < from the project*/
-                FAILED_LOADED = 1 << 6, /** < if we fail loading the file we dont want asserts*/
-                PRESETS_MODIFIED = 1<< 7,  /** < will enable tracking of preset-modified props*/
-                PRESETS_MODIFIED_FAILED = 1<< 8,
-                PRESETS_OVERWRITTEN = 1<< 9,
-                SIZE = 10
+  enum Loaded {
+    NOT_LOADED = 0, /** < default*/
+    FROM_INF = 1 << 0, /** < from ifstream (file, string etc.)*/
+    FROM_ARGS = 1 << 1, /** < from cmdLine*/
+    FROM_ENV = 1 << 2, /** < getenv*/
+    FROM_VEC = 1 << 3,
+    FROM_USER = 1 << 4, /** < from user - operator() or calling a set function*/
+    FROM_PROJECT = 1 << 5, /** < from the project*/
+    FAILED_LOADED = 1 << 6, /** < if we fail loading the file we dont want asserts*/
+    PRESETS_MODIFIED = 1 << 7, /** < will enable tracking of preset-modified props*/
+    PRESETS_MODIFIED_FAILED = 1 << 8,
+    PRESETS_OVERWRITTEN = 1 << 9,
+    SIZE = 10
   };
-
 
   /// @brief Enumerates the possible flags associated with a property.
   enum Flags {
     PERSISTENT = 1 << 0, /** < export to stream always*/
-    VOLATILE = 1<<1, /** < don't export, unless export volatile is requested*/
-    VISIBLE = 1<<2, /** < export to stream*/
-    HIDDEN = 1<<3, /** < export to stream only if loaded, or set value (and persistent)*/
+    VOLATILE = 1 << 1, /** < don't export, unless export volatile is requested*/
+    VISIBLE = 1 << 2, /** < export to stream*/
+    HIDDEN = 1 << 3, /** < export to stream only if loaded, or set value (and persistent)*/
 
     ALWAYS = 1 << 4,
     IF_NOT_DEFAULT = 1 << 5,
@@ -88,15 +96,15 @@ public:
     DEPRECATED = 1 << 10,
     META_PROPERTY = 1 << 11,
     META_PROPERTY_NON_DEFAULT = 1 << 12, /** < the value of this meta property field was hardcoded*/
-    META_PROPERTY_NO_CHANGE  = 1 << 13, /** < the value of this meta property field cannot be changed by cmd line*/
+    META_PROPERTY_NO_CHANGE = 1 << 13, /** < the value of this meta property field cannot be changed by cmd line*/
 
-    CHECKSUM = 1<< 14,
+    CHECKSUM = 1 << 14,
 
     DEFAULT_FLAGS = PERSISTENT | HIDDEN,
     DEFAULT_ME_FLAGS = DEFAULT_FLAGS | IF_CALIB
   };
 
-   /**
+  /**
    * @brief Validate the property value.
    *
    * This function validates the property value using the Property's validator. It checks whether the property value
@@ -118,87 +126,86 @@ public:
   void changeContainer(Properties* container);
 
   /**
- * @brief Construct a Property with a custom validator.
- *
- * This constructor creates a Property object with the provided attributes. It allows specifying a custom validator for
- * value validation.
- *
- * @tparam VALIDATOR The type of the custom validator.
- * @param[in] container_ The container of properties to which the property belongs.
- * @param[in] name_ The name of the property.
- * @param[in] desc_ The description of the property.
- * @param[in] flags_ The flags associated with the property.
- * @param[in] tboolshit_ should not be used
- * @param[in] data_ A pointer to associated data.
- * @param[in] validator_ An instance of the custom validator for property value validation.
- * @param[in] mandatory_ A boolean indicating whether the property is mandatory (default: false).
- */
-  template <typename VALIDATOR>
-  Property(Properties *container_, const char *name_, const char *desc_, int flags_, bool tboolshit_, void *data_,
-           const VALIDATOR &validator_, bool mandatory_ = false)
+   * @brief Construct a Property with a custom validator.
+   *
+   * This constructor creates a Property object with the provided attributes. It allows specifying a custom validator for
+   * value validation.
+   *
+   * @tparam VALIDATOR The type of the custom validator.
+   * @param[in] container_ The container of properties to which the property belongs.
+   * @param[in] name_ The name of the property.
+   * @param[in] desc_ The description of the property.
+   * @param[in] flags_ The flags associated with the property.
+   * @param[in] tboolshit_ should not be used
+   * @param[in] data_ A pointer to associated data.
+   * @param[in] validator_ An instance of the custom validator for property value validation.
+   * @param[in] mandatory_ A boolean indicating whether the property is mandatory (default: false).
+   */
+  template<typename VALIDATOR>
+  Property(Properties* container_, const char* name_, const char* desc_, int flags_, bool tboolshit_, void* data_,
+           const VALIDATOR& validator_, bool mandatory_ = false)
       : _container(container_), name(name_), desc(desc_), flags(flags_), loaded(0), modified(false),
         tboolshit(tboolshit_), mandatory(mandatory_), _ownsValidator(true), data(data_),
         _validator(new VALIDATOR(validator_)) {}
 
-
   /**
- * @brief Construct a Property.
- *
- * This constructor creates a Property object with the provided attributes.
- *
- * @param[in] container_ The container of properties to which the property belongs.
- * @param[in] name_ The name of the property.
- * @param[in] desc_ The description of the property.
- * @param[in] flags_ The flags associated with the property.
- * @param[in] tboolshit_ Should not be used
- * @param[in] data_ A pointer to associated data.
- * @param[in] validator_ A pointer to a validator for property value validation.
- * @param[in] mandatory_ A boolean indicating whether the property is mandatory (default: false).
- */
-  Property(Properties *container_, const char *name_, const char *desc_, int flags_, bool tboolshit_, void *data_,
-           const Validator *validator_, bool mandatory_ = false)
+   * @brief Construct a Property.
+   *
+   * This constructor creates a Property object with the provided attributes.
+   *
+   * @param[in] container_ The container of properties to which the property belongs.
+   * @param[in] name_ The name of the property.
+   * @param[in] desc_ The description of the property.
+   * @param[in] flags_ The flags associated with the property.
+   * @param[in] tboolshit_ Should not be used
+   * @param[in] data_ A pointer to associated data.
+   * @param[in] validator_ A pointer to a validator for property value validation.
+   * @param[in] mandatory_ A boolean indicating whether the property is mandatory (default: false).
+   */
+  Property(Properties* container_, const char* name_, const char* desc_, int flags_, bool tboolshit_, void* data_,
+           const Validator* validator_, bool mandatory_ = false)
       : _container(container_), name(name_), desc(desc_), flags(flags_), loaded(0), modified(false),
         tboolshit(tboolshit_), mandatory(mandatory_), _ownsValidator(false), data(data_), _validator(validator_) {}
 
   /**
- * @brief Construct a Property without a validator.
- *
- * This constructor creates a Property object without a validator. The property can still hold attributes such as name,
- * description, flags, and other characteristics, but it won't perform custom value validation.
- *
- * @param[in] container_ The container of properties to which the property belongs.
- * @param[in] name_ The name of the property.
- * @param[in] desc_ The description of the property.
- * @param[in] flags_ The flags associated with the property.
- * @param[in] tboolshit_ Should not be used.
- * @param[in] mandatory_ A boolean indicating whether the property is mandatory (default: false).
- */
-  Property(Properties *container_, const char *name_, const char *desc_, int flags_, bool tboolshit_,
+   * @brief Construct a Property without a validator.
+   *
+   * This constructor creates a Property object without a validator. The property can still hold attributes such as name,
+   * description, flags, and other characteristics, but it won't perform custom value validation.
+   *
+   * @param[in] container_ The container of properties to which the property belongs.
+   * @param[in] name_ The name of the property.
+   * @param[in] desc_ The description of the property.
+   * @param[in] flags_ The flags associated with the property.
+   * @param[in] tboolshit_ Should not be used.
+   * @param[in] mandatory_ A boolean indicating whether the property is mandatory (default: false).
+   */
+  Property(Properties* container_, const char* name_, const char* desc_, int flags_, bool tboolshit_,
            bool mandatory_ = false)
       : _container(container_), name(name_), desc(desc_), flags(flags_), loaded(0), modified(false),
         tboolshit(tboolshit_), mandatory(mandatory_), _ownsValidator(false), data(nullptr), _validator(nullptr) {}
 
   /**
- * @brief Destructor for the Property object.
- *
- * The destructor releases any resources associated with the Property object. If the property owns a validator,
- * it is properly deallocated. This ensures that all memory allocated for the property's resources is properly managed.
- */
+   * @brief Destructor for the Property object.
+   *
+   * The destructor releases any resources associated with the Property object. If the property owns a validator,
+   * it is properly deallocated. This ensures that all memory allocated for the property's resources is properly managed.
+   */
   virtual ~Property() {
-    if (_ownsValidator &&  _validator) {
+    if (_ownsValidator && _validator) {
       delete _validator;
       _validator = nullptr;
     }
   }
 
   /**
- * @brief Set a custom validator for property value validation.
- *
- * @tparam VALIDATOR The type of the custom validator.
- * @param[in] validator The custom validator instance to be set.
- */
+   * @brief Set a custom validator for property value validation.
+   *
+   * @tparam VALIDATOR The type of the custom validator.
+   * @param[in] validator The custom validator instance to be set.
+   */
   template<typename VALIDATOR>
-  void setValidator(const VALIDATOR &validator) {
+  void setValidator(const VALIDATOR& validator) {
     if (_ownsValidator) {
       delete _validator;
     }
@@ -207,11 +214,11 @@ public:
   }
 
   /**
- * @brief Set a validator for property value validation.
- *
- * @param[in] validator A pointer to the pre-defined validator instance to be set.
- */
-  void setValidator(const Validator *validator) {
+   * @brief Set a validator for property value validation.
+   *
+   * @param[in] validator A pointer to the pre-defined validator instance to be set.
+   */
+  void setValidator(const Validator* validator) {
     if (_ownsValidator) {
       delete _validator;
     }
@@ -220,26 +227,25 @@ public:
   }
 
   /**
- * @brief Get the property's validator along with ownership information.
- *
- * This function retrieves the property's validator along with information about whether the property owns the
- *  validator. The validator is returned as a pointer, and the ownership status is provided in the 'owns' parameter.
- *
- * @param[out] owns A pointer to a boolean where the ownership status of the validator will be stored (if provided).
- * @return A pointer to the property's validator if it owns it, otherwise will return nullptr. If 'owns' is provided,
- * it will indicate whether the property owns the validator.
- */
-  const Validator *getValidator(bool *owns) const {
+   * @brief Get the property's validator along with ownership information.
+   *
+   * This function retrieves the property's validator along with information about whether the property owns the
+   *  validator. The validator is returned as a pointer, and the ownership status is provided in the 'owns' parameter.
+   *
+   * @param[out] owns A pointer to a boolean where the ownership status of the validator will be stored (if provided).
+   * @return A pointer to the property's validator if it owns it, otherwise will return nullptr. If 'owns' is provided,
+   * it will indicate whether the property owns the validator.
+   */
+  const Validator* getValidator(bool* owns) const {
     if (owns) {
       *owns = _ownsValidator;
     }
     return _validator;
   }
 
-
- protected:
+protected:
   Properties* _container; /** < Pointer to the container of properties to which this property belongs. */
- public:
+public:
   const char* const name; /** < The name of the property. */
   const char* const desc; /** < The description of the property. */
   unsigned int flags; /** < Flags associated with the property. */
@@ -269,8 +275,7 @@ public:
   //************************************
   // Method:    requiresVerification  : determines if this Property is safety related and thus requires verification
   //************************************
-  virtual bool requiresVerification() const
-  { return NULL != getVerification(); }
+  virtual bool requiresVerification() const { return NULL != getVerification(); }
   //************************************
   // Method:    verifyVal             : actively verify this property
   // Returns:   VerificationStatus_e  : returns
@@ -286,8 +291,7 @@ public:
   // Returns:   true if verification is not required, or if verification is required and succeeded
   //            false if verification is required but failed or inactive (meaning not initialized properly)
   //************************************
-  bool verifyValIfRequired() const
-  {
+  bool verifyValIfRequired() const {
     if (requiresVerification()) {
       return E_VERIFICATION_SUCCEEDED == verifyVal();
     }
@@ -337,7 +341,12 @@ public:
 
   virtual ~Properties();
 
-  enum Verbosity { SILENT, LOW, MID, HIGH };
+  enum Verbosity {
+    SILENT,
+    LOW,
+    MID,
+    HIGH
+  };
 
   enum StoreOptions {
     STORE_DESCRIPTION = 1024,
@@ -363,8 +372,8 @@ public:
    * @param[in] secname The name of the section from which properties will be loaded (default: "")
    * @param[in] presetName The name of the preset (default: "")
    */
-  Properties(Verbosity verbose = SILENT, std::ostream &out = std::cout, std::ostream &err = std::cerr,
-             const MEtl::string &secname = "", const MEtl::string &presetName = "");
+  Properties(Verbosity verbose = SILENT, std::ostream& out = std::cout, std::ostream& err = std::cerr,
+             const MEtl::string& secname = "", const MEtl::string& presetName = "");
 
   /**
    * @brief Construct a new Properties object
@@ -395,9 +404,9 @@ public:
    *
    * @param[in] property The property to be added.
    */
-  void add(Property *property);
+  void add(Property* property);
 
-  bool load(char **env);
+  bool load(char** env);
 
   /**
    * @brief Load properties from the provided vector. Each element in the vector should follow the format: "key=value".
@@ -408,7 +417,7 @@ public:
    * @param[in] A vector of strings, with each string representing a property to be loaded into this Properties object.
    * @return Always returns true.
    */
-  bool load(const std::vector<MEtl::string> &args);
+  bool load(const std::vector<MEtl::string>& args);
 
   /**
    * @brief Load properties from the provided input stream based on the specified section. If the section name is
@@ -429,7 +438,7 @@ public:
    * @see load(std::istream &inStream, char sep, const char *section = nullptr,
    *        unsigned int source = Property::FROM_INF)
    */
-  bool load(std::istream &inStream, char sep, const char *section = nullptr,
+  bool load(std::istream& inStream, char sep, const char* section = nullptr,
             unsigned int source = Property::FROM_INF);
 
   /**
@@ -490,7 +499,7 @@ public:
    * @return true If all properties from the given section were loaded successfully.
    * @return false If loading a property from the section was unsuccessful.
    */
-  bool loadString(const MEtl::string &str, char sep, const char *section = nullptr,
+  bool loadString(const MEtl::string& str, char sep, const char* section = nullptr,
                   unsigned int source = Property::FROM_INF);
 
   /**
@@ -521,7 +530,7 @@ public:
    * @return true If all properties from the given section were loaded successfully.
    * @return false If loading a property from the section was unsuccessful.
    */
-  bool loadFile(const MEtl::string &file, char sep, const char *section = nullptr,
+  bool loadFile(const MEtl::string& file, char sep, const char* section = nullptr,
                 unsigned int source = Property::FROM_INF);
 
   /**
@@ -552,29 +561,29 @@ public:
    * @return true If all properties from the given section were loaded successfully.
    * @return false If loading a property from the section was unsuccessful.
    */
-  bool loadFile(const Strings &multiFile, char sep, const char *section = nullptr,
+  bool loadFile(const Strings& multiFile, char sep, const char* section = nullptr,
                 unsigned int source = Property::FROM_INF);
 
   bool loadCanonical(const std::map<MEtl::string, MEtl::string>& propertiesMap);
 
-  virtual void defaultCalibValues() {};
+  virtual void defaultCalibValues(){};
 
-/**
-* @brief Stores the properties of this Properties object into a file.
-*        This function saves the properties contained within this Properties object to a specified file. The properties
-*        are stored in the format of "key<sep>value", with each property on a new line. If a section is provided, the
-*        properties will be stored within that section, denoted by "[<section name>]". The function allows customization
-*        through optional parameters for the separator character and flags.
-*        flags is represented as a bitmask, with each bit corresponding to a store option defined in the
-*         @see StorOption enum.
-*
-* @param[in] file The name of the file to which the properties will be saved.
-* @param[in] sep The separator character used between key and value.
-* @param[in] section The section under which properties should be stored (default: nullptr).
-* @param[in] flags Flags indicating the storage behavior (default: Properties::STORE_ALL_PERSISTENT).
-* @return Returns true if the properties were successfully stored, otherwise false.
-*/
-  bool storeFile(const MEtl::string &file, char sep, const char *section = nullptr,
+  /**
+   * @brief Stores the properties of this Properties object into a file.
+   *        This function saves the properties contained within this Properties object to a specified file. The properties
+   *        are stored in the format of "key<sep>value", with each property on a new line. If a section is provided, the
+   *        properties will be stored within that section, denoted by "[<section name>]". The function allows customization
+   *        through optional parameters for the separator character and flags.
+   *        flags is represented as a bitmask, with each bit corresponding to a store option defined in the
+   *         @see StorOption enum.
+   *
+   * @param[in] file The name of the file to which the properties will be saved.
+   * @param[in] sep The separator character used between key and value.
+   * @param[in] section The section under which properties should be stored (default: nullptr).
+   * @param[in] flags Flags indicating the storage behavior (default: Properties::STORE_ALL_PERSISTENT).
+   * @return Returns true if the properties were successfully stored, otherwise false.
+   */
+  bool storeFile(const MEtl::string& file, char sep, const char* section = nullptr,
                  int flags = Properties::STORE_ALL_PERSISTENT);
 
   /**
@@ -592,7 +601,7 @@ public:
    *                 (default: Properties::STORE_ALL_PERSISTENT).
    * @return Returns true if the properties were successfully stored, otherwise false.
    */
-  bool storeString(MEtl::string &data, char sep, const char *section = nullptr,
+  bool storeString(MEtl::string& data, char sep, const char* section = nullptr,
                    int flags = Properties::STORE_ALL_PERSISTENT);
 
   /**
@@ -633,13 +642,13 @@ public:
    */
   bool validateMandatory(MEtl::string& errMsg);
 
-  bool validateChecksum(MEtl::string &errMsg, const UInts *checksums);
+  bool validateChecksum(MEtl::string& errMsg, const UInts* checksums);
 
   /**
-  * @brief Set the default separator character for key-value pairs.
-  *
-  * @param[in] sep The separator character to be set as the default (e.g., '=').
-  */
+   * @brief Set the default separator character for key-value pairs.
+   *
+   * @param[in] sep The separator character to be set as the default (e.g., '=').
+   */
   void setDefaultSeparator(char sep);
 
   /**
@@ -657,7 +666,7 @@ public:
    *
    * @param[out] out A pointer to the output stream to be set.
    */
-  void setOutStream(std::ostream *out) { _pOut = out; }
+  void setOutStream(std::ostream* out) { _pOut = out; }
 
   /**
    * @brief Get the output stream for standard output messages.
@@ -665,7 +674,7 @@ public:
    *
    * @return A reference to the output stream for standard output messages.
    */
-  std::ostream &getOutStream() { return *_pOut; }
+  std::ostream& getOutStream() { return *_pOut; }
 
   /**
    * @brief Set the output stream for error messages.
@@ -674,7 +683,7 @@ public:
    *
    * @param[out] err A pointer to the output stream to be set for error messages.
    */
-  void setErrStream(std::ostream *err) { _pErr = err; }
+  void setErrStream(std::ostream* err) { _pErr = err; }
 
   /**
    * @brief Get the output stream for error messages.
@@ -685,9 +694,9 @@ public:
    */
   std::ostream& getErrStream() { return *_pErr; }
 
-  bool loadIdenticalProperties(const Properties& properties); // load only identical properties
+  bool loadIdenticalProperties(const Properties& properties);// load only identical properties
 
-  const char *desc(const MEtl::string &key) const;
+  const char* desc(const MEtl::string& key) const;
 
   /**
    * @brief Validates whether the given value is valid for the specified property by invoking the `validate` method
@@ -698,7 +707,7 @@ public:
    * @param[out] whynot A string that will be populated with an explanation if the value is invalid.
    * @return Returns true if the value is valid for the property, otherwise false.
    */
-  bool validate(const MEtl::string &key, const MEtl::string &val, MEtl::string &whynot) const;
+  bool validate(const MEtl::string& key, const MEtl::string& val, MEtl::string& whynot) const;
 
   int presetModified() { return _modifiedPresets; }
 
@@ -709,8 +718,7 @@ public:
    */
   bool loaded() const { return (_loaded ? true : false); }
 
-
-  bool getValues(const MEtl::string &key, std::vector<MEtl::string> &values, int &numOfPossibleVals) const;
+  bool getValues(const MEtl::string& key, std::vector<MEtl::string>& values, int& numOfPossibleVals) const;
 
   void* data(const MEtl::string& key) const;
 
@@ -731,9 +739,9 @@ public:
    * @param[in] validator A pointer to a validator for optional value validation (default: nullptr).
    * @return The property's value of type T, or the default value if the property is not found or validation fails.
    */
-  template <typename T>
-  T getProperty(const MEtl::string &var, const T &defaultVal, bool *pexist = nullptr,
-                const Property::Validator *validator = nullptr) const {
+  template<typename T>
+  T getProperty(const MEtl::string& var, const T& defaultVal, bool* pexist = nullptr,
+                const Property::Validator* validator = nullptr) const {
 
 #ifdef CHECK_LOADED_PROPERTY
     assert(_loaded != 0);
@@ -742,7 +750,7 @@ public:
     if (pexist) {
       *pexist = (valString != nullptr);
     }
-    //enable validation in order to return defaultVal not atot default
+    // enable validation in order to return defaultVal not atot default
     if (validator && valString) {
       MEtl::string errorStr;
       bool valid = validator->validate(var, valString, *this, errorStr);
@@ -757,7 +765,7 @@ public:
     return defaultVal;
   }
 
-  MEtl::string getProperty(const MEtl::string &var, const char *defaultVal, bool *pexist = nullptr) const {
+  MEtl::string getProperty(const MEtl::string& var, const char* defaultVal, bool* pexist = nullptr) const {
 #ifdef CHECK_LOADED_PROPERTY
     assert(_loaded != 0);
 #endif
@@ -774,7 +782,7 @@ public:
    * @param[in] key The key of the property to retrieve.
    * @return The property's value as a C-style string, or nullptr if the property is not found.
    */
-  const char *getProperty(const char *key) const {
+  const char* getProperty(const char* key) const {
     return _getProperty(key);
   }
 
@@ -823,10 +831,10 @@ public:
     return _setProperty(var, ttoaStr, Property::FROM_USER);
   }
 
-  const std::map<MEtl::string, MEtl::string> &properties() const { return _map; }
+  const std::map<MEtl::string, MEtl::string>& properties() const { return _map; }
   friend std::ostream& operator<<(std::ostream& out, const Properties& properties);
   void cut(std::vector<MEtl::string>& args);
-  void add(const std::vector<MEtl::string> &args);
+  void add(const std::vector<MEtl::string>& args);
 
   /**
    * @brief Set the verbosity level for messages.
@@ -848,10 +856,10 @@ public:
    */
   Verbosity getVerbose() const { return _verbose; }
 
-  void inspectUnknownFields(const MEtl::string &key, const MEtl::string &val, unsigned int source,
-      std::vector<std::pair<MEtl::string, MEtl::string>> &unknownFields);
+  void inspectUnknownFields(const MEtl::string& key, const MEtl::string& val, unsigned int source,
+                            std::vector<std::pair<MEtl::string, MEtl::string>>& unknownFields);
 
-  void handleUnknownFields(unsigned int source, std::vector<std::pair<MEtl::string, MEtl::string> > & unknownFields);
+  void handleUnknownFields(unsigned int source, std::vector<std::pair<MEtl::string, MEtl::string>>& unknownFields);
   void updateMetaPropertiesData();
   void updateCmdLineSectionList();
   void checkAndHandleObjectsWithSameSectionName(MEtl::string& key);
@@ -867,21 +875,21 @@ public:
    * @param[in] name The section name to be set.
    * @param[in] why A description of why the section name is being set.
    */
-  void setName(const MEtl::string &name, const char *why = "");
+  void setName(const MEtl::string& name, const char* why = "");
 
   /**
    * @brief Set the file name associated with the Properties.
    *
    * @param[in] name The file name to be associated with the `Properties` object.
    */
-  void setFileName(const MEtl::string &name) { _fileName = name; }
+  void setFileName(const MEtl::string& name) { _fileName = name; }
 
   /**
    * @brief Get the section name associated with the Properties.
    *
    * @return The section name associated with the `Properties` object.
    */
-  const MEtl::string &getName() const { return _name; }
+  const MEtl::string& getName() const { return _name; }
 
   /**
    * @brief Saves the contents of this Properties object to the provided output stream based on the specified mode.
@@ -910,7 +918,7 @@ public:
    *
    * @return A map of modified properties and their original values.
    */
-  const std::map<MEtl::string, MEtl::string> &modified() const { return _modified; }
+  const std::map<MEtl::string, MEtl::string>& modified() const { return _modified; }
 
   /**
    * @brief Check if a property with the specified key has been modified after loading.
@@ -921,7 +929,7 @@ public:
    * @param[in] key The key of the property to check for modification.
    * @return Returns true if the property has been modified after loading, otherwise returns false.
    */
-  bool isModified(const MEtl::string &key) const;
+  bool isModified(const MEtl::string& key) const;
 
   /**
    * @brief Find a property by its key.
@@ -933,60 +941,65 @@ public:
    * @param[in] key The key of the property to search for.
    * @return A pointer to the `Property` object with the given key, or nullptr if not found.
    */
-  const Property *findProperty(const MEtl::string &key) const;
+  const Property* findProperty(const MEtl::string& key) const;
 
-  const std::list<const Property *> &properTies() const { return _properTies; }
+  const std::list<const Property*>& properTies() const { return _properTies; }
   void sync();
 
   void deactivatePropsVerification() const;
 
-  const std::vector<std::pair<MEtl::string, MEtl::string> >& rejectedFields() const { return _rejectedFields; }
+  const std::vector<std::pair<MEtl::string, MEtl::string>>& rejectedFields() const { return _rejectedFields; }
 
   virtual void validateValues() {}
-  MetaProperties * _metaProperties;
+  MetaProperties* _metaProperties;
   virtual const char* getClassName() { return nullptr; }
 
-  //properties manager stuff
+  // properties manager stuff
   friend class PropertiesManager;
   void setPropertiesManager(PropertiesManager* propertiesManager);
   virtual bool verifyAllProps(const bool stopOnFirstError = false);
   // override only for the cases of properties with non-unique section name
-  virtual const MEtl::string& getPresetName() const { return _presetName.empty() ? getName(): _presetName; }
+  virtual const MEtl::string& getPresetName() const { return _presetName.empty() ? getName() : _presetName; }
   void reloadPresets();
   void updatePresets();
 
 protected:
   unsigned int _loaded; /** < Flag indicating whether properties have been loaded. */
   PropertiesManager* _propertiesManager;
+
 private:
   bool validate(const MEtl::string& str, char sep) const;
   bool validate(std::istream& in, char sep) const;
-  virtual int store3(char* buf, int sizeOfBuf, char sep)const;
+  virtual int store3(char* buf, int sizeOfBuf, char sep) const;
 
   int _loadPresets;
   int _modifiedPresets;
-  std::vector<std::pair<MEtl::string, MEtl::string> > _rejectedFields;
+  std::vector<std::pair<MEtl::string, MEtl::string>> _rejectedFields;
 
   friend class Property;
   Properties(const Properties& other);
   Properties& operator=(const Properties& other);
-  const char* _getProperty(const MEtl::string& var)const;
+  const char* _getProperty(const MEtl::string& var) const;
+
 protected:
   bool _setProperty(const MEtl::string& var, const MEtl::string& val, unsigned int loaded);
+
 private:
   void falsifyBoolshits(unsigned int source = Property::FROM_INF);
-  virtual bool validate(const Property *property, const MEtl::string &key, const MEtl::string &val,
-                        MEtl::string &whyNot) const {
+  virtual bool validate(const Property* property, const MEtl::string& key, const MEtl::string& val,
+                        MEtl::string& whyNot) const {
     return true;
   }
 
-  virtual void onRejected(const Property *property, const MEtl::string &key, const MEtl::string &from,
-                          const MEtl::string &to, MEtl::string &whyNot) {}
+  virtual void onRejected(const Property* property, const MEtl::string& key, const MEtl::string& from,
+                          const MEtl::string& to, MEtl::string& whyNot) {}
 
   virtual void onModified(const Property* property, const MEtl::string& key, const MEtl::string& from,
                           const MEtl::string& to) {}
+
 protected:
   virtual void onLoaded() {}
+
 private:
   virtual void exec(const char* command);
   void postLoaded();
@@ -994,6 +1007,7 @@ private:
   std::map<MEtl::string, int> _unformatted;
   void add(std::vector<MEtl::string>& args, bool cut);
   InputStringValidityCheckPolicy _checkInputStringValidity;
+
 protected:
   Verbosity _verbose; /** < The verbosity level for messages.*/
   std::ostream& _out; /** < The output stream for messages.*/
@@ -1001,8 +1015,7 @@ protected:
   std::ostream* _pOut; /** < An alternative output stream.*/
   std::ostream* _pErr; /** < An alternative error stream.*/
 private:
-
-  bool _sectionFound; // information about most recent load() call
+  bool _sectionFound;// information about most recent load() call
 
   std::map<MEtl::string, const Property*> _metaData;
   std::list<const Property*> _properTies;
@@ -1012,28 +1025,34 @@ private:
       _modified; /** < A map storing modified property values before they were modified.*/
   unsigned int _defaultPropertyFlags;
   std::list<MEtl::string> _pendingExec;
+
 protected:
   void setRejected(const MEtl::string& keyname, const MEtl::string& keyval, const Properties& container,
                    const MEtl::string& whyNot);
-  void setPropertyPresetModified(const Property* property,bool succeededLoadingPropVal);
+  void setPropertyPresetModified(const Property* property, bool succeededLoadingPropVal);
   Properties* _me;
   char _defaultSeparator; /** < The default separator used for key-value pairs in the properties.*/
   MEtl::string _presetName;
 };
 
-
-class boolshit{
+class boolshit {
 public:
-  explicit boolshit(bool shit):_shit(shit) {}
+  explicit boolshit(bool shit)
+      : _shit(shit) {}
   void setVal(bool val) { _shit = val; }
   operator bool() const { return _shit; }
+
 private:
   bool _shit;
 };
 
-template<typename T> inline void makeBoolshit(bool& tboolshit, const T& val) { tboolshit = false; }
-template<> inline void makeBoolshit(bool& tboolshit, const boolshit& val) {
-  assert(val == false); //boolshits can't have negative default value
+template<typename T>
+inline void makeBoolshit(bool& tboolshit, const T& val) {
+  tboolshit = false;
+}
+template<>
+inline void makeBoolshit(bool& tboolshit, const boolshit& val) {
+  assert(val == false);// boolshits can't have negative default value
   tboolshit = true;
 }
 
@@ -1042,22 +1061,22 @@ template<> inline void makeBoolshit(bool& tboolshit, const boolshit& val) {
 //  a "do nothing" template class for non-safety related parameters (all required verification functions have empty
 //  implementation)
 //  ******************************************
-class DefaultVerifier
-{
+class DefaultVerifier {
 public:
-  VerificationStatus_e getLastStatus() const { return E_VERIFICATION_INACTIVE;  }
+  VerificationStatus_e getLastStatus() const { return E_VERIFICATION_INACTIVE; }
+
 protected:
   void setPrecision(const double* precisionLevel) {}
   void syncVerifiers(const char* newSectionName) const {}
-  PropertyVerification * getPropVerification() const {  return nullptr;  };
+  PropertyVerification* getPropVerification() const { return nullptr; };
   template<typename T>
   void handleValue(const char* fileName, const char* sectionName, const char* keyName, const T& val) const {}
 
   template<typename T>
-  VerificationStatus_e verify(T& val) const { return E_VERIFICATION_INACTIVE;  }
+  VerificationStatus_e verify(T& val) const { return E_VERIFICATION_INACTIVE; }
 
   template<typename T>
-  VerificationStatus_e verifyAuto(T& val) const { return E_VERIFICATION_INACTIVE;  }
+  VerificationStatus_e verifyAuto(T& val) const { return E_VERIFICATION_INACTIVE; }
 
   void deactivateVerification() const {}
 };
@@ -1078,9 +1097,8 @@ protected:
  *                      containing all verification info and high cost mechanism.
  */
 template<typename T, class VerifierT = DefaultVerifier>
-class ProperT : public Property, public VerifierT{
+class ProperT : public Property, public VerifierT {
 public:
-
   /**
    * @brief Constructor for ProperT with a custom validator.
    *
@@ -1097,11 +1115,10 @@ public:
    * @param[in] validator An instance of the custom validator for property value validation.
    * @param[in] mandatory Indicates whether the property is mandatory (default: false).
    */
-  template <typename VALIDATOR>
-  ProperT(Properties *container, const T &defaultVal, const char *name, const char *desc, int flags, void *data,
-          const VALIDATOR &validator, bool mandatory = false)
-    :Property(container, name, desc, flags, false, data, validator,mandatory), _val(defaultVal), _defaultVal(defaultVal)
-  {
+  template<typename VALIDATOR>
+  ProperT(Properties* container, const T& defaultVal, const char* name, const char* desc, int flags, void* data,
+          const VALIDATOR& validator, bool mandatory = false)
+      : Property(container, name, desc, flags, false, data, validator, mandatory), _val(defaultVal), _defaultVal(defaultVal) {
     makeBoolshit<T>((bool&)tboolshit, defaultVal);
     _container->add(this);
     defaultProperty(name, defaultVal);
@@ -1123,9 +1140,8 @@ public:
    */
   ProperT(Properties* container, const T& defaultVal, const char* name, const char* desc, int flags, void* data,
           const Validator* validator, bool mandatory = false)
-    :Property(container, name, desc, flags, false, data, validator, mandatory),
-     _val(defaultVal), _defaultVal(defaultVal)
-  {
+      : Property(container, name, desc, flags, false, data, validator, mandatory),
+        _val(defaultVal), _defaultVal(defaultVal) {
     makeBoolshit<T>((bool&)tboolshit, defaultVal);
     _container->add(this);
     defaultProperty(name, defaultVal);
@@ -1146,9 +1162,8 @@ public:
    */
   ProperT(Properties* container, const T& defaultVal, const char* name, const char* desc, int flags,
           bool mandatory = false)
-    :Property(container, name, desc, flags, false, mandatory),
-     _val(defaultVal), _defaultVal(defaultVal)
-  {
+      : Property(container, name, desc, flags, false, mandatory),
+        _val(defaultVal), _defaultVal(defaultVal) {
     makeBoolshit<T>((bool&)tboolshit, defaultVal);
     _container->add(this);
     defaultProperty(name, defaultVal);
@@ -1157,7 +1172,7 @@ public:
   /// @brief Set the property value to its default value.
   void setDefault() { this->operator()(_defaultVal); }
 
-   /**
+  /**
    * @brief Set the property value using the assignment operator.
    *
    * @param[in] val The value to set the property to.
@@ -1223,8 +1238,8 @@ public:
 #endif
     if (hasValue) {
       //*hasValue = (loaded || modified);
-      if ( NOT_LOADED != loaded || true==modified ) {
-        *hasValue = true; // hasValue==true ==> NOT default value
+      if (NOT_LOADED != loaded || true == modified) {
+        *hasValue = true;// hasValue==true ==> NOT default value
       }
       else {
         *hasValue = false;
@@ -1238,23 +1253,19 @@ public:
 
   // implementation of all verification functions is via the VerifierT template class
 
-  virtual void setVerificationPrecision(const double* precisionLevel)
-  { VerifierT::setPrecision(precisionLevel); }
+  virtual void setVerificationPrecision(const double* precisionLevel) { VerifierT::setPrecision(precisionLevel); }
 
-  virtual PropertyVerification* getVerification() const
-  { return VerifierT::getPropVerification(); }
+  virtual PropertyVerification* getVerification() const { return VerifierT::getPropVerification(); }
 
-  virtual VerificationStatus_e getLastVerificationStatus() const
-  { return VerifierT::getLastStatus(); }
+  virtual VerificationStatus_e getLastVerificationStatus() const { return VerifierT::getLastStatus(); }
 
-  virtual VerificationStatus_e verifyVal() const
-  { return VerifierT::verify(_val); }
+  virtual VerificationStatus_e verifyVal() const { return VerifierT::verify(_val); }
 
   virtual void deactivateVerification() const {
     VerifierT::deactivateVerification();
   }
 
-  virtual void handleValue(const char* fileName, const char* sectionName) const override{
+  virtual void handleValue(const char* fileName, const char* sectionName) const override {
     VerifierT::handleValue(fileName, sectionName, name, _val);
   }
 
@@ -1267,34 +1278,36 @@ public:
     return _container;
   }
 
-
- protected:
- T _val; /** < The current value of the property. */
- const T _defaultVal; /** < The default value of the property. */
+protected:
+  T _val; /** < The current value of the property. */
+  const T _defaultVal; /** < The default value of the property. */
 };
 
-
-template<typename T> inline const Property::Validator* GetDefaultValidator(const T &var) {
+template<typename T>
+inline const Property::Validator* GetDefaultValidator(const T& var) {
   return (Property::Validator*)nullptr;
 }
 
 // I had to create a special template function for <signed char> and a function called GetSignedCharValidator() -
 // as GetDefaultValidator(const signed char &var) did not compile due to a clash with GetDefaultValidator(const unsigned char &var).
-const Property::Validator*  GetSignedCharValidator();
-template <> inline const Property::Validator* GetDefaultValidator<signed char>(const signed char &var) {return GetSignedCharValidator();}
+const Property::Validator* GetSignedCharValidator();
+template<>
+inline const Property::Validator* GetDefaultValidator<signed char>(const signed char& var) {
+  return GetSignedCharValidator();
+}
 
 // There is a need to define the GetDefaultValidator functions here in the *.h file. Otherwise these will not be seen
 // at run time - at least in release mode. The implementation is in the *.cpp file as we do not want to include PropertiesValidator.h here.
-const Property::Validator*  GetDefaultValidator(const unsigned long long &var);
-const Property::Validator*  GetDefaultValidator(const long long &var);
-const Property::Validator*  GetDefaultValidator(const unsigned long &var);
-const Property::Validator*  GetDefaultValidator(const long &var);
-const Property::Validator*  GetDefaultValidator(const unsigned int &var);
-const Property::Validator*  GetDefaultValidator(const unsigned short &var);
-const Property::Validator*  GetDefaultValidator(const int &var);
-const Property::Validator*  GetDefaultValidator(const short &var);
-const Property::Validator*  GetDefaultValidator(const unsigned char &var);
-const Property::Validator*  GetDefaultValidator(const char &var);
+const Property::Validator* GetDefaultValidator(const unsigned long long& var);
+const Property::Validator* GetDefaultValidator(const long long& var);
+const Property::Validator* GetDefaultValidator(const unsigned long& var);
+const Property::Validator* GetDefaultValidator(const long& var);
+const Property::Validator* GetDefaultValidator(const unsigned int& var);
+const Property::Validator* GetDefaultValidator(const unsigned short& var);
+const Property::Validator* GetDefaultValidator(const int& var);
+const Property::Validator* GetDefaultValidator(const short& var);
+const Property::Validator* GetDefaultValidator(const unsigned char& var);
+const Property::Validator* GetDefaultValidator(const char& var);
 
 /**
  * @class RWProperT
@@ -1309,7 +1322,6 @@ const Property::Validator*  GetDefaultValidator(const char &var);
 template<typename T, class VerifierT = DefaultVerifier>
 class RWProperT : public ProperT<T, VerifierT> {
 public:
-
   /**
    * @brief Constructor for RWProperT with a custom validator.
    *
@@ -1326,9 +1338,9 @@ public:
    * @param[in] validator An instance of the custom validator for property value validation.
    * @param[in] mandatory Indicates whether the property is mandatory (default: false).
    */
-  template <typename VALIDATOR>
-  RWProperT(Properties *container, const T &defaultVal, const char *name, const char *desc, int flags, void *data,
-            const VALIDATOR &validator, bool mandatory = false)
+  template<typename VALIDATOR>
+  RWProperT(Properties* container, const T& defaultVal, const char* name, const char* desc, int flags, void* data,
+            const VALIDATOR& validator, bool mandatory = false)
       : ProperT<T, VerifierT>(container, defaultVal, name, desc, flags, data, validator, mandatory) {}
 
   /**
@@ -1345,8 +1357,8 @@ public:
    * @param[in] validator Pointer to the pre-defined validator for property value validation.
    * @param[in] mandatory Indicates whether the property is mandatory (default: false).
    */
-  RWProperT(Properties *container, const T &defaultVal, const char *name, const char *desc, int flags, void *data,
-            const Property::Validator *validator, bool mandatory = false)
+  RWProperT(Properties* container, const T& defaultVal, const char* name, const char* desc, int flags, void* data,
+            const Property::Validator* validator, bool mandatory = false)
       : ProperT<T, VerifierT>(container, defaultVal, name, desc, flags, data, validator, mandatory) {}
 
   /**
@@ -1362,7 +1374,7 @@ public:
    * @param[in] flags Flags associated with the property.
    * @param[in] mandatory Indicates whether the property is mandatory (default: false).
    */
-  RWProperT(Properties *container, const T &defaultVal, const char *name, const char *desc, int flags,
+  RWProperT(Properties* container, const T& defaultVal, const char* name, const char* desc, int flags,
             bool mandatory = false)
       : ProperT<T, VerifierT>(container, defaultVal, name, desc, flags, nullptr, GetDefaultValidator(defaultVal),
                               mandatory) {}
@@ -1395,37 +1407,36 @@ public:
 // an input of type integer is - in the case where the user did not use a bool. Note: we cannot specialize
 // just 1 function of the template class but have to redo the whole class.
 template<>
-class RWProperT<bool> : public ProperT<bool>{
+class RWProperT<bool> : public ProperT<bool> {
 public:
-  template <typename VALIDATOR>
-  RWProperT(Properties *container, const bool &defaultVal, const char *name, const char *desc, int flags, void *data,
-            const VALIDATOR &validator, bool mandatory = false)
+  template<typename VALIDATOR>
+  RWProperT(Properties* container, const bool& defaultVal, const char* name, const char* desc, int flags, void* data,
+            const VALIDATOR& validator, bool mandatory = false)
       : ProperT<bool>(container, defaultVal, name, desc, flags, data, validator, mandatory) {}
 
-  RWProperT(Properties *container, const bool &defaultVal, const char *name, const char *desc, int flags, void *data,
-            const Property::Validator *validator, bool mandatory = false)
+  RWProperT(Properties* container, const bool& defaultVal, const char* name, const char* desc, int flags, void* data,
+            const Property::Validator* validator, bool mandatory = false)
       : ProperT<bool>(container, defaultVal, name, desc, flags, data, validator, mandatory) {}
 
-  RWProperT(Properties *container, const bool &defaultVal, const char *name, const char *desc, int flags,
+  RWProperT(Properties* container, const bool& defaultVal, const char* name, const char* desc, int flags,
             bool mandatory = false)
       : ProperT<bool>(container, defaultVal, name, desc, flags, nullptr, GetDefaultValidator(defaultVal), mandatory) {}
 
-  bool operator() (const int& val) {
+  bool operator()(const int& val) {
     bool boolVal = true;
     if (val <= 0) {
       boolVal = false;
-    } 
+    }
     return this->_container->setProperty(this->name, boolVal);
   }
 
-  bool operator() (const bool& val) {
+  bool operator()(const bool& val) {
     return this->_container->setProperty(this->name, val);
   }
   const bool& operator()(bool* hasValue = nullptr) const {
     return ProperT<bool>::operator()(hasValue);
   }
 };
-
 
 template<typename T>
 bool Property::defaultProperty(const MEtl::string& var, const T& val) {
@@ -1445,11 +1456,11 @@ inline void Property::changeContainer(Properties* container) {
 // This class contains the items that are to be relevant for all Properties classes.
 class MetaProperties : public Properties {
 public:
-    MetaProperties(const char* sectionName);
-    RWProperT<MEtl::string> unknownFieldPolicy;
-    RWProperT<unsigned int> verbosity;
-    RWProperT<MEtl::string> type;
-    RWProperT<MEtl::string> objectsWithSameSectionNamePolicy;
+  MetaProperties(const char* sectionName);
+  RWProperT<MEtl::string> unknownFieldPolicy;
+  RWProperT<unsigned int> verbosity;
+  RWProperT<MEtl::string> type;
+  RWProperT<MEtl::string> objectsWithSameSectionNamePolicy;
 };
 
 /**
@@ -1461,7 +1472,7 @@ public:
  * @return A pointer to a modified file name if certain conditions are met.
  *         Otherwise, it returns the original file name.
  */
-extern const char * Properties_FixPrefixFileName(const char* fileName,bool isOffline);
+extern const char* Properties_FixPrefixFileName(const char* fileName, bool isOffline);
 
 /**
  * @brief Reads data from a file into a string.
@@ -1524,7 +1535,7 @@ extern bool ReadAndConcatenateInputStream(MEtl::string& streamStr, std::istream&
  */
 extern bool IsPrintString(const MEtl::string& str);
 
-//TODO: delete this function
+// TODO: delete this function
 extern void Properties_HandleBadSectionsFromCmdLine();
 
 /**
@@ -1538,7 +1549,7 @@ extern void Properties_HandleBadSectionsFromCmdLine();
  * @return True if the destination Properties object do not contain properties with the same names as the source
  *         properties, otherwise returns false.
  */
-extern bool Properties_checkPropertiesFields(const Properties& src, const Properties& dst,int verbose = 0);
+extern bool Properties_checkPropertiesFields(const Properties& src, const Properties& dst, int verbose = 0);
 
 /**
  * @brief Retrieves a list of sections from an INI-formatted string.
@@ -1568,7 +1579,7 @@ extern bool Properties_GetListOfSections(std::list<MEtl::string>& sections, cons
  * @return True if the specified section exists within the provided INI-formatted string.
  *         False if the section is not found or if the input string is empty.
  */
-extern bool Properties_isSectionExist(const MEtl::string &section, const MEtl::string &iniStr);
+extern bool Properties_isSectionExist(const MEtl::string& section, const MEtl::string& iniStr);
 
 /**
  * @brief Retrieves a map of sections from an INI-formatted string.
@@ -1747,8 +1758,8 @@ extern void Properties_Term();
  * @warning If g_argc and g_argv are not initialized when calling Properties_GetSettings,
  * the program will abort.
  */
-extern std::string Properties_GetSettings(std::string prefix, char mode='\0');
+extern std::string Properties_GetSettings(std::string prefix, char mode = '\0');
 
 typedef std::map<MEtl::string, MEtl::string> SectionsMap;
 
-#endif //__PROPERTIES__H__
+#endif//__PROPERTIES__H__
