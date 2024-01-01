@@ -67,17 +67,17 @@ public:
     protectedFunction();
   }
 
-  static const int staticConstMember = 100;
+  static const int _staticConstMember = 100;
   std::atomic<int> atomicMember = ATOMIC_VAR_INIT(0);
 
 protected:
-  void protectedFunction()
+  static void protectedFunction()
   {
     std::cout << "BaseClass protectedFunction()" << std::endl;
   }
 
 private:
-  void privateFunction()
+  static void privateFunction()
   {
     std::cout << "BaseClass privateFunction()" << std::endl;
   }
@@ -116,10 +116,10 @@ public:
   volatile double volatileMember = 2.71;
 
 protected:
-  float protectedMember = 3.14f;
+  float protectedMember = 3.14F;
 
 private:
-  int privateMember = 10;
+  int _privateMember = 10;
 };
 
 void printValues(const std::vector<int>& values)
@@ -190,7 +190,7 @@ void emptyLoop()
 }
 } // namespace MyNamespace
 
-int main()
+auto main() -> int
 {
   double squareRoot = std::sqrt(25.0);
   std::cout << "Square root of 25: " << squareRoot << std::endl;
