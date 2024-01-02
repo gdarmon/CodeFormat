@@ -140,8 +140,8 @@ BreakInheritanceList: BeforeColon
 BreakBeforeTernaryOperators: true
 # Break before ternary operators
 
-BreakConstructorInitializersBeforeComma: false
-# Do not break constructor initializers before a comma
+BreakConstructorInitializersBeforeComma: true
+# break constructor initializers before a comma
 
 BreakConstructorInitializers: BeforeColon
 # Break constructor initializers before a colon
@@ -294,7 +294,7 @@ SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 # Disable space after logical NOT (!)
 
-SpaceAfterTemplateKeyword: true
+SpaceAfterTemplateKeyword: false
 # Enable space after template keyword
 
 SpaceBeforeAssignmentOperators: true
@@ -342,5 +342,7 @@ TabWidth:        2
 # Set tab width to 2 spaces
 
 UseTab:          Never
+
+InsertBraces: true
 
 
