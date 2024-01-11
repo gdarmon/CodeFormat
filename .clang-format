@@ -1,4 +1,6 @@
 ---
+# clang-format version 16
+# module load llvm/16.0.0
 Language:        Cpp
 # BasedOnStyle:  LLVM
 
@@ -11,8 +13,12 @@ AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
 # Align elements after an open bracket
 
-AlignConsecutiveMacros: false
-# Do not align consecutive macros
+#TODO apply for all 3
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+
 
 AlignConsecutiveAssignments: false
 # Do not align consecutive assignments
@@ -26,8 +32,8 @@ AlignEscapedNewlines: Right
 AlignOperands:   true
 # Align operands in expressions
 
-AlignTrailingComments: true
-# Align trailing comments
+AlignTrailingComments: Leave
+# Do not touch trailing comments
 
 AllowShortEnumsOnASingleLine : false
 
@@ -46,7 +52,7 @@ AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: false
 # Disallow short case labels on a single line
 
-AllowShortFunctionsOnASingleLine: Inline
+AllowShortFunctionsOnASingleLine: false
 # Allow short functions on a single line (inline)
 
 AllowShortLambdasOnASingleLine: All
@@ -80,22 +86,22 @@ BreakBeforeBraces: Custom
 # Customize break before braces
 
 BraceWrapping:
-  AfterCaseLabel:  false
+  AfterCaseLabel:  true
   # Add a newline after a case label
 
-  AfterClass:      false
+  AfterClass:      true
   # Add a newline after a class declaration
 
-  AfterControlStatement: false
+  AfterControlStatement: true
   # Do not add a newline after a control statement
 
-  AfterEnum:       false
+  AfterEnum:       true
   # Add a newline after an enum declaration
 
-  AfterFunction:   false
+  AfterFunction:   true
   # Add a newline after a function declaration
 
-  AfterNamespace:  false
+  AfterNamespace:  true
   # Do not add a newline after a namespace declaration
 
   AfterStruct:     true
@@ -104,14 +110,18 @@ BraceWrapping:
   AfterUnion:      true
   # Add a newline after a union declaration
 
-  AfterExternBlock: false
+  AfterExternBlock: true
   # Do not add a newline after an extern block
 
-  BeforeCatch:     false
+  BeforeCatch:     true
   # Do not add a newline before a catch statement
 
   BeforeElse:      true
   # Add a newline before an else statement
+
+  BeforeLambdaBody:   true
+
+  BeforeWhile:   true
 
   IndentBraces:    false
   # Do not indent braces
@@ -134,8 +144,8 @@ BreakBeforeBinaryOperators: None
 BreakBeforeInheritanceComma: false
 # Do not break before inheritance comma
 
-BreakInheritanceList: BeforeColon
-# Break before the colon in inheritance lists
+BreakInheritanceList: AfterComma
+# Break after the colon in inheritance lists
 
 BreakBeforeTernaryOperators: true
 # Break before ternary operators
@@ -143,8 +153,10 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: true
 # break constructor initializers before a comma
 
-BreakConstructorInitializers: BeforeColon
-# Break constructor initializers before a colon
+BreakConstructorInitializers: AfterColon
+# Break constructor initializers after a colon
+
+PackConstructorInitializers: Never
 
 BreakStringLiterals: true
 # Break string literals
@@ -282,7 +294,7 @@ PointerAlignment: Left
 ReflowComments:  true
 # Enable reflowing comments
 
-SortIncludes:    true
+# SortIncludes:    true // should be enforce by coding guidelines
 # Sort #include statements
 
 SortUsingDeclarations: true
@@ -317,7 +329,7 @@ SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyParentheses: false
 # Do not add spaces inside empty parentheses
 
-SpacesBeforeTrailingComments: 0
+SpacesBeforeTrailingComments: 1
 # Set the number of spaces before trailing comments to 1
 
 SpacesInAngles:  false
@@ -343,6 +355,11 @@ TabWidth:        2
 
 UseTab:          Never
 
-InsertBraces: true
+#InsertBraces: true //not for automation without human code review the results 0 only PER MR
 
+InsertNewlineAtEOF: true
+# add a new line in the end of the file
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+# if with empty lines, remove the unsued empty lines
 
