@@ -55,7 +55,7 @@ AllowShortCaseLabelsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: false
 # Allow short functions on a single line (inline)
 
-AllowShortLambdasOnASingleLine: All
+AllowShortLambdasOnASingleLine: false
 # Allow short lambdas on a single line (all)
 
 AllowShortIfStatementsOnASingleLine: Never
