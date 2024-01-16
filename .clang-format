@@ -230,8 +230,8 @@ IncludeIsMainRegex: '(Test)?$'
 
 #----- Indentation settings -----
 
-IndentCaseLabels: false
-# Do not indent case labels
+IndentCaseLabels: true
+# Indent case labels
 
 IndentPPDirectives: None
 # Do not indent preprocessor directives
