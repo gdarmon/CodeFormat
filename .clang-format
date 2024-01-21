@@ -360,8 +360,5 @@ UseTab:          Never
 InsertNewlineAtEOF: true
 # add a new line in the end of the file
 
-BeforeWhile: true
-
-BeforeLambdaBody: true
 
 

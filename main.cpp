@@ -23,7 +23,8 @@
 #include <iostream>
 #include <vector>
 
-namespace MyNamespace {
+namespace MyNamespace
+{
 
 enum OLD_ENUM
 {
@@ -43,7 +44,6 @@ enum class MY_ENUM_CLASS
 
 class BaseClass
 {
-
 public:
   BaseClass()
   {
@@ -124,14 +124,18 @@ private:
 
 void printValues(const std::vector<int>& values)
 {
-  for (auto val : values) {
-    if (val % 2 == 0) {
+  for (auto val : values)
+  {
+    if (val % 2 == 0)
+    {
       std::cout << "Even value: " << val << std::endl;
     }
-    else if (val % 5 == 0) {
+    else if (val % 5 == 0)
+    {
       std::cout << "Value divisible by 5: " << val << std::endl;
     }
-    else {
+    else
+    {
       std::cout << "Odd value: " << val << std::endl;
     }
   }
@@ -140,7 +144,8 @@ void printValues(const std::vector<int>& values)
 void performWhileLoop(int count)
 {
   int i = 0;
-  while (i < count) {
+  while (i < count)
+  {
     std::cout << "While loop iteration: " << i + 1 << std::endl;
     ++i;
   }
@@ -149,15 +154,18 @@ void performWhileLoop(int count)
 void performDoWhileLoop(int count)
 {
   int i = 0;
-  do {
+  do
+  {
     std::cout << "Do-while loop iteration: " << i + 1 << std::endl;
     ++i;
-  } while (i < count);
+  }
+  while (i < count);
 }
 
 void performSwitchCase(int value)
 {
-  switch (value) {
+  switch (value)
+  {
   case 1:
     std::cout << "Switch case: Value is 1" << std::endl;
     break;
@@ -175,9 +183,11 @@ void performSwitchCase(int value)
 
 void emptyLoopExample(int count)
 {
-  for (;;) {
+  for (;;)
+  {
     // This is an empty for loop with no initialization, condition, or increment sections
-    if (count <= 0) {
+    if (count <= 0)
+    {
       break;
     }
     --count;
