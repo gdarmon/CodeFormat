@@ -297,7 +297,7 @@ ReflowComments:  true
 # SortIncludes:    true // should be enforce by coding guidelines
 # Sort #include statements
 
-SortUsingDeclarations: true
+SortUsingDeclarations: false
 # Sort using declarations
 
 SpaceAfterCStyleCast: false
