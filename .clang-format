@@ -294,7 +294,7 @@ PointerAlignment: Left
 ReflowComments:  true
 # Enable reflowing comments
 
-SortIncludes:    false // should be enforce by coding guidelines
+SortIncludes:    false   #should be enforced by coding guidelines
 # Sort #include statements
 
 SortUsingDeclarations: false
@@ -355,7 +355,7 @@ TabWidth:        2
 
 UseTab:          Never
 
-InsertBraces: false //not for automation without human code review the results 0 only PER MR
+InsertBraces: false #not for automation without human code review the results 0 only PER MR
 
 InsertNewlineAtEOF: true
 # add a new line in the end of the file
