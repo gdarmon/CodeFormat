@@ -150,9 +150,6 @@ BreakInheritanceList: AfterComma
 BreakBeforeTernaryOperators: true
 # Break before ternary operators
 
-BreakConstructorInitializersBeforeComma: true
-# break constructor initializers before a comma
-
 BreakConstructorInitializers: AfterColon
 # Break constructor initializers after a colon
 
