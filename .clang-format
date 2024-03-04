@@ -13,18 +13,35 @@ AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
 # Align elements after an open bracket
 
-#TODO apply for all 3
+
 AlignConsecutiveMacros:
-  Enabled: true
-  AcrossEmptyLines: true
-  AcrossComments: true
+   Enabled:         true
+   AcrossEmptyLines: true
+   AcrossComments:  true
+   AlignCompound:   true
+   PadOperators:    true
 
 
-AlignConsecutiveAssignments: false
-# Do not align consecutive assignments
+AlignConsecutiveAssignments:
+   Enabled:         false
+   AcrossEmptyLines: false
+   AcrossComments:  false
+   AlignCompound:   false
+   PadOperators:    false
 
-AlignConsecutiveDeclarations: false
-# Do not align consecutive declarations
+AlignConsecutiveBitFields:
+   Enabled:         false
+   AcrossEmptyLines: false
+   AcrossComments:  false
+   AlignCompound:   false
+   PadOperators:    false
+
+AlignConsecutiveDeclarations:
+   Enabled:         false
+   AcrossEmptyLines: false
+   AcrossComments:  false
+   AlignCompound:   false
+   PadOperators:    false
 
 AlignEscapedNewlines: Right
 # Align escaped newlines to the right
@@ -32,7 +49,9 @@ AlignEscapedNewlines: Right
 AlignOperands:   true
 # Align operands in expressions
 
-AlignTrailingComments: Leave
+AlignTrailingComments:
+  Kind:            Always
+  OverEmptyLines:  0
 # Do not touch trailing comments
 
 AllowShortEnumsOnASingleLine : false
@@ -336,6 +355,9 @@ SpacesInContainerLiterals: true
 
 SpacesInCStyleCastParentheses: false
 # Disable spaces in C-style cast parentheses
+SpacesInLineCommentPrefix:
+  Minimum:         1
+  Maximum:         -1
 
 SpacesInParentheses: false
 # Disable spaces in parentheses
