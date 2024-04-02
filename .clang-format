@@ -379,5 +379,10 @@ InsertBraces: false #not for automation without human code review the results 0 
 InsertNewlineAtEOF: true
 # add a new line in the end of the file
 
+#if you run clang-format on these macros it will create white spaces for every /
+WhitespaceSensitiveMacros: ['HTC_INCLUDE']
+
+
+
 
 
