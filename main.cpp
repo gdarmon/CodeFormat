@@ -22,6 +22,7 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include "trouble.h"
 
 namespace MyNamespace
 {
@@ -35,7 +36,7 @@ enum OLD_ENUM
 
 enum class MY_ENUM_CLASS
 {
-  VALUE1,
+  value1,
   VALUE2,
   VALUE3
 };
@@ -68,7 +69,7 @@ public:
   }
 
   static const int _staticConstMember = 100;
-  std::atomic<int> atomicMember = ATOMIC_VAR_INIT(0);
+  std::atomic<int> atomicMember = ATOMIC_VAR_INIT(0);  
 
 protected:
   static void protectedFunction()
@@ -81,6 +82,7 @@ private:
   {
     std::cout << "BaseClass privateFunction()" << std::endl;
   }
+
 };
 
 class DerivedClass : public BaseClass
@@ -111,6 +113,13 @@ public:
     virtualFunction();
     publicFunction();
     protectedFunction();
+    checkTrouble();
+    
+  }
+
+  void checkTrouble()
+  {
+    _trouble = MESVC_Trouble::NoConnection;
   }
 
   volatile double volatileMember = 2.71;
@@ -120,6 +129,7 @@ protected:
 
 private:
   int _privateMember = 10;
+  MESVC_Trouble _trouble;
 };
 
 void printValues(const std::vector<int>& values)
